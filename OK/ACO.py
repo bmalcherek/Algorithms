@@ -4,7 +4,7 @@ import msvcrt as m
 
 
 # HEURISTIC GLOBAL VAIRABLES
-TASKS = 10   
+TASKS = 20
 T_MIN = 5
 T_MAX = 20
 MAINTENANCE_CHANCE = 0.3
@@ -33,6 +33,10 @@ class Job:
 
 	def set_end_time(self, time):
 		self.end_time = time
+
+	def set_penalty(self, p):
+		self.penalty = p
+		self.real_length_op2 = ceil(p * self.op2)
 
 	def __str__(self):
 		# return f"job{self.index}"
@@ -157,6 +161,7 @@ def generate_random_solution():
 				solution_m2_with_maintenance.append(job2)
 				possible_m2_jobs.remove(job2)
 				m2_time_busy = ceil(job2.op2 * current_m2_penalty)
+				job2.set_penalty(current_m2_penalty)
 				current_m2_penalty += M2_PENALTY
 
 			elif len(possible_m2_jobs) == 0 and x >= MAINTENANCE_CHANCE and not(is_idle):
@@ -174,8 +179,19 @@ def generate_random_solution():
 		m1_time_busy -= 1
 		m2_time_busy -= 1
 
+	return solution_m1, solution_m2_with_maintenance
+
+
+def generate_output_file(solution_m1, solution_m2):
+	print("M1: ", end="", file=OUTPUT_FILE)
+	for job in solution_m1:
+		print(f"; op1_{job.index}, {job.begin_time}, {job.op1}, {job.op1}", end="", file=OUTPUT_FILE)
+
+
 
 generate_jobs()
-# print(AVERAGE_M2_TIME)
 print(JOBS)
-generate_random_solution()
+# solution_m1, solution_m2_with_maintenance = list(), list()
+solution_m1, solution_m2_with_maintenance = generate_random_solution()
+# generate_random_solution()
+generate_output_file(solution_m1, solution_m2_with_maintenance)
