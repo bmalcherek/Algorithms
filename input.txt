@@ -1,6 +1,0 @@
-5
-czas_operacji1_0;7;czas_operacji2_0;7
-czas_operacji1_1;17;czas_operacji2_1;9
-czas_operacji1_2;7;czas_operacji2_2;14
-czas_operacji1_3;6;czas_operacji2_3;18
-czas_operacji1_4;6;czas_operacji2_4;19
