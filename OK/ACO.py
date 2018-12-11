@@ -13,16 +13,20 @@ MAINTENANCE_TIME_COEFFICIENT = 1.5
 POPULATION = 100
 ITERATIONS = 100
 BEST_ANTS = 20
+EVAPORATION_RATE = 0.2
 
 # OTHER GLOBAL VARIABLES
 INPUT_FILE = open("input.txt", "w")
 OUTPUT_FILE = open("output.txt", "w")
 JOBS = list()
 ANTS = list()
+PHEROMONE_MATRIX_M1 = list()
+PHEROMONE_MATRIX_M2 = list()
 
 # GLOBAL VARIABLES TO CALCULATE FROM GENERATED DATA
 AVERAGE_M2_TIME = 0
 MAINTENANCE_DURATION = 0
+MAX_MAINTENANCE = TASKS - 2
 
 
 class Job:
@@ -46,7 +50,7 @@ class Job:
 		return str(self.index)
 
 	def __repr__(self):
-		return str(self)
+		re2turn str(self)
 
 
 class Maintenance:
@@ -194,7 +198,6 @@ def generate_random_solution():
 			idle = IdleTime(time)
 			is_idle = True
 
-
 		# print(time, solution_m1, solution_m2, solution_m2_with_maintenance, m2_time_busy)
 
 		time += 1
@@ -269,6 +272,32 @@ def get_x_best():
 	ants = sorted(ANTS, key=lambda x: x.score)
 	ants = ants[:BEST_ANTS]
 	return ants
+
+
+def initialize_pheromone_matrix():
+	global PHEROMONE_MATRIX_M1, PHEROMONE_MATRIX_M2
+
+	for i in range(TASKS):
+		temp = list()
+		for j in range(TASKS):
+			temp.append(None)
+		PHEROMONE_MATRIX_M1.append(temp)
+
+	for i in range(TASKS + MAX_MAINTENANCE):
+		temp = list()
+		for j in range(TASKS + MAX_MAINTENANCE):
+			temp.append(None)
+		PHEROMONE_MATRIX_M2.append(temp)
+
+
+def update_pheromone_matrix(ants):
+	max_weight = BEST_ANTS
+	old_pheromone_matrix = PHEROMONE_MATRIX.copy()
+
+	for row in PHEROMONE_MATRIX:
+		for cell in row:
+			for ant in ants:
+
 
 
 generate_jobs()
