@@ -306,11 +306,25 @@ def initialize_pheromone_matrix():
         PHEROMONE_MATRIX_M2.append(temp)
 
 
+def evaporation():
+    global PHEROMONE_MATRIX_M1, PHEROMONE_MATRIX_M2
+
+    for i in range(len(PHEROMONE_MATRIX_M1)):
+        for j in range(len(PHEROMONE_MATRIX_M1[0])):
+            PHEROMONE_MATRIX_M1[i][j] *= 1 - EVAPORATION_RATE
+
+    for i in range(len(PHEROMONE_MATRIX_M2)):
+        for j in range(len(PHEROMONE_MATRIX_M2[0])):
+            PHEROMONE_MATRIX_M2[i][j] *= 1 - EVAPORATION_RATE
+
+
 def update_pheromone_matrix():
     global PHEROMONE_MATRIX_M1, PHEROMONE_MATRIX_M2
     ants = get_x_best()
     # max_weight = BEST_ANTS
     # old_pheromone_matrix = PHEROMONE_MATRIX.copy()
+
+    evaporation()
 
     for ant in ants:
         for i in range(len(ant.solution_m1) - 1):
