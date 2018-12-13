@@ -3,7 +3,7 @@ from math import ceil
 from copy import deepcopy
 
 # HEURISTIC GLOBAL VARIABLES
-TASKS = 50
+TASKS = 10
 T_MIN = 5
 T_MAX = 20
 MAINTENANCE_CHANCE = 0.3
@@ -100,9 +100,18 @@ class Ant:
         self.solution_m1 = solution_m1
         self.solution_m2 = solution_m2
         self.score = score(self.solution_m1, self.solution_m2)
+        self.not_used_jobs_m1 = deepcopy(JOBS)
+        self.not_used_jobs_m2 = deepcopy(JOBS)
 
     def set_score(self):
         self.score = score(self.solution_m1, self.solution_m2)
+
+    def reset(self):
+        self.score = None
+        self.not_used_jobs_m1 = deepcopy(JOBS)
+        self.not_used_jobs_m2 = deepcopy(JOBS)
+        self.solution_m1 = list()
+        self.solution_m2 = list()
 
     def __str__(self):
         return str(self.score)
@@ -291,9 +300,13 @@ def get_x_best():
 
 
 def initialize_pheromone_matrix():
+
+    # last row of first pheromone matrix is start node so values on ith will indicate how much ants like to start
+    # from that row
+
     global PHEROMONE_MATRIX_M1, PHEROMONE_MATRIX_M2
 
-    for i in range(TASKS):
+    for i in range(TASKS + 1):
         temp = list()
         for j in range(TASKS):
             temp.append(0)
@@ -327,6 +340,9 @@ def update_pheromone_matrix():
     evaporation()
 
     for ant in ants:
+
+        PHEROMONE_MATRIX_M1[-1][ant.solution_m1[0].id] += 1
+
         for i in range(len(ant.solution_m1) - 1):
             row = ant.solution_m1[i].id
             column = ant.solution_m1[i + 1].id
@@ -376,6 +392,42 @@ def update_pheromone_matrix():
                 PHEROMONE_MATRIX_M2[row][column] += 1
 
 
+def choose_m1_task(ant):
+    if len(ant.not_used_jobs_m1) == TASKS:
+        sum_of_last_row = sum(PHEROMONE_MATRIX_M1[-1])
+        x = uniform(0, sum_of_last_row)
+        temp_sum = 0
+        index = 0
+
+        for i in range(len(PHEROMONE_MATRIX_M1[-1])):
+            if temp_sum >= x:
+                break
+            temp_sum += PHEROMONE_MATRIX_M1[-1][i]
+            index = i
+
+        job1 = ant.not_used_jobs_m1[index]
+        ant.not_used_jobs_m1.remove(job1)
+        ant.solution_m1.append(job1)
+        # ant.not_used_jobs_m1[index] = None
+
+    elif len(ant.not_used_jobs_m1) > 0:
+        last_job = ant.solution_m1[-1].id
+        sum_of_available_jobs = 0
+
+        for job in ant.not_used_jobs_m1:
+            sum_of_available_jobs += PHEROMONE_MATRIX_M1[last_job][job.id]
+
+        x = uniform(0, sum_of_available_jobs)
+        temp_sum = 0
+
+        for job in ant.not_used_jobs_m1:
+            temp_sum += PHEROMONE_MATRIX_M1[last_job][job.id]
+            if temp_sum >= x:
+                ant.solution_m1.append(job)
+                ant.not_used_jobs_m1.remove(job)
+                break
+
+
 generate_jobs()
 # solution_m1, solution_m2_with_maintenance = generate_random_solution()
 # generate_output_file(solution_m1, solution_m2_with_maintenance)
@@ -383,4 +435,7 @@ start_population()
 # # get_x_best()
 initialize_pheromone_matrix()
 update_pheromone_matrix()
+ANTS[0].reset()
+for i in range(10):
+    choose_m1_task(ANTS[0])
 print("xd")
