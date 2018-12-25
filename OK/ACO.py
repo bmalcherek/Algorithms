@@ -70,9 +70,14 @@ class Maintenance:
         self.length = MAINTENANCE_DURATION
         self.end_time = time + self.length
         self.parent_job = job.id
+        self.id = self.parent_job + TASKS
+
+    def set_times(self, time):
+        self.begin_time = time
+        self.end_time = time + self.length
 
     def __str__(self):
-        return "mtc"
+        return f"mtc{self.parent_job}"
 
     def __repr__(self):
         return str(self)
@@ -101,7 +106,7 @@ class Ant:
         self.solution_m2 = solution_m2
         self.score = score(self.solution_m1, self.solution_m2)
         self.not_used_jobs_m1 = deepcopy(JOBS)
-        self.not_used_jobs_m2 = deepcopy(JOBS)
+        self.possible_m2_jobs = list()
 
     def set_score(self):
         self.score = score(self.solution_m1, self.solution_m2)
@@ -109,7 +114,7 @@ class Ant:
     def reset(self):
         self.score = None
         self.not_used_jobs_m1 = deepcopy(JOBS)
-        self.not_used_jobs_m2 = deepcopy(JOBS)
+        self.possible_m2_jobs = list()
         self.solution_m1 = list()
         self.solution_m2 = list()
 
@@ -392,40 +397,125 @@ def update_pheromone_matrix():
                 PHEROMONE_MATRIX_M2[row][column] += 1
 
 
-def choose_m1_task(ant):
-    if len(ant.not_used_jobs_m1) == TASKS:
-        sum_of_last_row = sum(PHEROMONE_MATRIX_M1[-1])
-        x = uniform(0, sum_of_last_row)
-        temp_sum = 0
-        index = 0
+def use_pheromone_matrix(ant):
+    solution_m2 = list()  # Solution for M2 without maintenances used to stop condition of while loop
+    time = 0
+    m1_busy_time = 0
+    m2_busy_time = 0
+    last_done_m1 = False
+    first_done_m2 = False
+    job1 = None
+    current_penalty = 1
 
-        for i in range(len(PHEROMONE_MATRIX_M1[-1])):
-            if temp_sum >= x:
-                break
-            temp_sum += PHEROMONE_MATRIX_M1[-1][i]
-            index = i
+    while len(solution_m2) != JOBS or m2_busy_time > 0:
+        if m1_busy_time < 1:
+            if len(ant.solution_m1) == 0:
+                sum_of_last_row = sum(PHEROMONE_MATRIX_M1[-1])
+                x = uniform(0, sum_of_last_row)
+                temp_sum = 0
+                index = 0
 
-        job1 = ant.not_used_jobs_m1[index]
-        ant.not_used_jobs_m1.remove(job1)
-        ant.solution_m1.append(job1)
-        # ant.not_used_jobs_m1[index] = None
+                for i in range(len(PHEROMONE_MATRIX_M1[-1])):
+                    if temp_sum >= x:
+                        break
+                    temp_sum += PHEROMONE_MATRIX_M1[-1][i]
+                    index = i
 
-    elif len(ant.not_used_jobs_m1) > 0:
-        last_job = ant.solution_m1[-1].id
-        sum_of_available_jobs = 0
+                job1 = ant.not_used_jobs_m1[index]
+                ant.not_used_jobs_m1.remove(job1)
+                ant.solution_m1.append(job1)
+                m1_busy_time = job1.op1
 
-        for job in ant.not_used_jobs_m1:
-            sum_of_available_jobs += PHEROMONE_MATRIX_M1[last_job][job.id]
+            elif len(ant.not_used_jobs_m1) >= 0 and not last_done_m1:
 
-        x = uniform(0, sum_of_available_jobs)
-        temp_sum = 0
+                if len(ant.not_used_jobs_m1) == 0:
+                    last_done_m1 = True
 
-        for job in ant.not_used_jobs_m1:
-            temp_sum += PHEROMONE_MATRIX_M1[last_job][job.id]
-            if temp_sum >= x:
-                ant.solution_m1.append(job)
-                ant.not_used_jobs_m1.remove(job)
-                break
+                ant.possible_m2_jobs.append(job1)
+                job1.set_end_time_m1 = time
+                last_job_id_m1 = ant.solution_m1[-1].id
+                sum_of_available_jobs_m1 = 0
+
+                for job in ant.not_used_jobs_m1:
+                    sum_of_available_jobs_m1 += PHEROMONE_MATRIX_M1[last_job_id_m1][job.id]
+
+                x = uniform(0, sum_of_available_jobs_m1)
+                temp_sum = 0
+
+                for job in ant.not_used_jobs_m1:
+                    temp_sum += PHEROMONE_MATRIX_M1[last_job_id_m1][job.id]
+                    if temp_sum > x:
+                        job1 = job
+                        ant.solution_m1.append(job1)
+                        job1.set_begin_time_m1 = time
+                        ant.not_used_jobs_m1.remove(job1)
+                        m1_busy_time = job1.op1
+                        break
+
+        if m2_busy_time < 1:
+
+            if not first_done_m2 and len(ant.possible_m2_jobs) > 0:
+                job2 = ant.possible_m2_jobs[0]
+                mtc = Maintenance(time, job2)
+                ant.possible_m2_jobs.append(mtc)
+                ant.possible_m2_jobs.remove(job2)
+                job2.set_begin_time_m2 = time
+                m2_busy_time = job2.op2
+                ant.solution_m2.append(job2)
+                solution_m2.append(job2)
+                first_done_m2 = True
+                current_penalty += 0.1
+
+            elif len(ant.possible_m2_jobs) > 0:
+                if type(ant.solution_m2[-1]) == IdleTime:
+                    last_job_id_m2 = ant.solution_m2[-2].id
+                else:
+                    last_job_id_m2 = ant.solution_m2[-1].id
+
+                sum_of_available_jobs_m2 = 0
+
+                for job in ant.possible_m2_jobs:
+                    sum_of_available_jobs_m2 += PHEROMONE_MATRIX_M2[last_job_id_m2][job.id]
+
+                x = uniform(0, sum_of_available_jobs_m2)
+                temp_sum = 0
+
+                for job in ant.possible_m2_jobs:
+                    temp_sum += PHEROMONE_MATRIX_M2[last_job_id_m2][job.id]
+                    if temp_sum > x:
+                        if job.id < TASKS:
+                            job2 = job
+                            ant.solution_m2.append(job2)
+                            solution_m2.append(job2)
+                            ant.possible_m2_jobs.remove(job2)
+
+                            for task in ant.possible_m2_jobs:
+                                if type(task) == Maintenance:
+                                    ant.possible_m2_jobs.remove(task)
+
+                            if current_penalty > 1:
+                                mtc = Maintenance(time, job2)
+                                ant.possible_m2_jobs.append(mtc)
+
+                            current_penalty += 0.1
+                            job2.set_begin_time_m2 = time
+                            job2.set_end_time_m2 = time + job.op2
+                            m2_busy_time = job2.op2
+
+                        else:
+                            mtc = job
+                            mtc.set_times(time)
+                            ant.solution_m2.append(mtc)
+                            ant.possible_m2_jobs.remove(mtc)
+                            m2_busy_time = mtc.length
+                            current_penalty = 1
+                            # TODO implement case if chosen job is maintenance
+
+                # TODO implement IdleTime for m2
+
+        time += 1
+        m1_busy_time -= 1
+        m2_busy_time -= 1
 
 
 generate_jobs()
@@ -436,6 +526,7 @@ start_population()
 initialize_pheromone_matrix()
 update_pheromone_matrix()
 ANTS[0].reset()
-for i in range(10):
-    choose_m1_task(ANTS[0])
+use_pheromone_matrix(ANTS[0])
+# for i in range(10):
+#     choose_m1_task(ANTS[0])
 print("xd")
