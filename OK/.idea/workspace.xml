@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3d9ae0a8-234a-45b5-9eb7-b41ffc399062" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/OK.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/OK.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ACO.py" beforeDir="false" afterPath="$PROJECT_DIR$/ACO.py" afterDir="false" />
     </list>
@@ -14,7 +12,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/OK$ACO.coverage" NAME="ACO Coverage Results" MODIFIED="1545780288467" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/OK$ACO.coverage" NAME="ACO Coverage Results" MODIFIED="1545857925995" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -35,18 +33,17 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ACO.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="279">
-              <caret line="484" column="36" lean-forward="true" selection-start-line="484" selection-start-column="36" selection-end-line="484" selection-end-column="36" />
+            <state relative-caret-position="148">
+              <caret line="528" column="40" selection-start-line="528" selection-start-column="40" selection-end-line="528" selection-end-column="40" />
               <folding>
                 <element signature="e#0#43#0" expanded="true" />
-                <element signature="e#2871#3381#0" />
-                <element signature="e#6704#6817#0" />
-                <element signature="e#6876#8538#0" />
-                <element signature="e#8569#8711#0" />
-                <element signature="e#8736#8822#0" />
-                <element signature="e#8865#9357#0" />
-                <element signature="e#9383#9754#0" />
-                <element signature="e#9792#12173#0" />
+                <element signature="e#6854#6967#0" />
+                <element signature="e#7026#8688#0" />
+                <element signature="e#8719#8861#0" />
+                <element signature="e#8886#8972#0" />
+                <element signature="e#9015#9507#0" />
+                <element signature="e#9533#9904#0" />
+                <element signature="e#9942#12323#0" />
               </folding>
             </state>
           </provider>
@@ -151,7 +148,8 @@
       <option name="presentableId" value="Default" />
       <updated>1544703647644</updated>
       <workItem from="1544703650400" duration="19309000" />
-      <workItem from="1545736510773" duration="14213000" />
+      <workItem from="1545736510773" duration="15282000" />
+      <workItem from="1545856231431" duration="1257000" />
     </task>
     <task id="LOCAL-00001" summary="Debugged generating random solution and little progress with pheromone matrix">
       <created>1544712199946</created>
@@ -178,7 +176,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="33522000" />
+    <option name="totallyTimeSpent" value="35848000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -193,16 +191,16 @@
     <frame x="-6" y="-6" width="1381" height="885" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13907786" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14134543" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32980132" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.49946696" visible="true" weight="0.29801324" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49946696" weight="0.29801324" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.2794702" />
+      <window_info active="true" anchor="bottom" id="TODO" order="6" visible="true" weight="0.2794702" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.23394056" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
@@ -230,18 +228,23 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/ACO.py</url>
-          <line>486</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ACO.py</url>
-          <line>447</line>
+          <line>449</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/ACO.py</url>
-          <line>505</line>
-          <option name="timeStamp" value="5" />
+          <line>498</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ACO.py</url>
+          <line>517</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ACO.py</url>
+          <line>495</line>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -290,18 +293,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ACO.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="484" column="36" lean-forward="true" selection-start-line="484" selection-start-column="36" selection-end-line="484" selection-end-column="36" />
+        <state relative-caret-position="148">
+          <caret line="528" column="40" selection-start-line="528" selection-start-column="40" selection-end-line="528" selection-end-column="40" />
           <folding>
             <element signature="e#0#43#0" expanded="true" />
-            <element signature="e#2871#3381#0" />
-            <element signature="e#6704#6817#0" />
-            <element signature="e#6876#8538#0" />
-            <element signature="e#8569#8711#0" />
-            <element signature="e#8736#8822#0" />
-            <element signature="e#8865#9357#0" />
-            <element signature="e#9383#9754#0" />
-            <element signature="e#9792#12173#0" />
+            <element signature="e#6854#6967#0" />
+            <element signature="e#7026#8688#0" />
+            <element signature="e#8719#8861#0" />
+            <element signature="e#8886#8972#0" />
+            <element signature="e#9015#9507#0" />
+            <element signature="e#9533#9904#0" />
+            <element signature="e#9942#12323#0" />
           </folding>
         </state>
       </provider>

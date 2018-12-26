@@ -151,7 +151,6 @@ def generate_random_solution():
     solution_m2 = list()
     solution_m2_with_maintenance = list()
     maintenance_count = 0
-    idle_count = 0
 
     # OTHER VARIABLES
     not_used_jobs = deepcopy(JOBS)
@@ -163,6 +162,9 @@ def generate_random_solution():
     current_m2_penalty = 1
     time = 0
     is_idle = False
+    job1 = None
+    job2 = None
+    idle = None
 
     while len(solution_m2) != len(JOBS) or m2_time_busy > 0:
         if m1_time_busy < 1 and len(not_used_jobs) > 0:
@@ -226,8 +228,6 @@ def generate_random_solution():
         elif m2_time_busy < 1 and len(possible_m2_jobs) == 0 and current_m2_penalty == 1 and not is_idle:
             idle = IdleTime(time)
             is_idle = True
-
-        # print(time, solution_m1, solution_m2, solution_m2_with_maintenance, m2_time_busy)
 
         time += 1
         m1_time_busy -= 1
@@ -406,6 +406,8 @@ def use_pheromone_matrix(ant):
     first_done_m2 = False
     job1 = None
     current_penalty = 1
+    is_idle = False
+    idle = None
 
     while len(solution_m2) != JOBS or m2_busy_time > 0:
         if m1_busy_time < 1:
@@ -452,7 +454,11 @@ def use_pheromone_matrix(ant):
                         m1_busy_time = job1.op1
                         break
 
-        if m2_busy_time < 1:
+        if m2_busy_time < 1 and len(ant.possible_m2_jobs) > 0:
+
+            if is_idle:
+                is_idle = False
+                idle.set_end_time(time)
 
             if not first_done_m2 and len(ant.possible_m2_jobs) > 0:
                 job2 = ant.possible_m2_jobs[0]
@@ -479,39 +485,48 @@ def use_pheromone_matrix(ant):
 
                 x = uniform(0, sum_of_available_jobs_m2)
                 temp_sum = 0
+                job = None
 
-                for job in ant.possible_m2_jobs:
-                    temp_sum += PHEROMONE_MATRIX_M2[last_job_id_m2][job.id]
+                for j in ant.possible_m2_jobs:
+                    temp_sum += PHEROMONE_MATRIX_M2[last_job_id_m2][j.id]
                     if temp_sum > x:
-                        if job.id < TASKS:
-                            job2 = job
-                            ant.solution_m2.append(job2)
-                            solution_m2.append(job2)
-                            ant.possible_m2_jobs.remove(job2)
+                        job = j
 
-                            for task in ant.possible_m2_jobs:
-                                if type(task) == Maintenance:
-                                    ant.possible_m2_jobs.remove(task)
+                if temp_sum == 0:
+                    job = choice(ant.possible_m2_jobs)
 
-                            if current_penalty > 1:
-                                mtc = Maintenance(time, job2)
-                                ant.possible_m2_jobs.append(mtc)
+                if job.id < TASKS:
+                    job2 = job
+                    ant.solution_m2.append(job2)
+                    solution_m2.append(job2)
+                    ant.possible_m2_jobs.remove(job2)
 
-                            current_penalty += 0.1
-                            job2.set_begin_time_m2 = time
-                            job2.set_end_time_m2 = time + job.op2
-                            m2_busy_time = job2.op2
+                    for task in ant.possible_m2_jobs:
+                        if type(task) == Maintenance:
+                            ant.possible_m2_jobs.remove(task)
 
-                        else:
-                            mtc = job
-                            mtc.set_times(time)
-                            ant.solution_m2.append(mtc)
-                            ant.possible_m2_jobs.remove(mtc)
-                            m2_busy_time = mtc.length
-                            current_penalty = 1
-                            # TODO implement case if chosen job is maintenance
+                    if current_penalty > 1:
+                        mtc = Maintenance(time, job2)
+                        ant.possible_m2_jobs.append(mtc)
 
-                # TODO implement IdleTime for m2
+                    current_penalty += 0.1
+                    job2.set_begin_time_m2 = time
+                    job2.set_end_time_m2 = time + job.op2
+                    m2_busy_time = job2.op2
+
+                else:
+                    mtc = job
+                    mtc.set_times(time)
+                    ant.solution_m2.append(mtc)
+                    ant.possible_m2_jobs.remove(mtc)
+                    m2_busy_time = mtc.length
+                    current_penalty = 1
+                    # TODO implement case if chosen job is maintenance
+
+        elif not is_idle and m2_busy_time < 1:
+            is_idle = True
+            idle = IdleTime(time)
+            ant.solution_m2.append(idle)
 
         time += 1
         m1_busy_time -= 1
