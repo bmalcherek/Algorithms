@@ -12,7 +12,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/OK$ACO.coverage" NAME="ACO Coverage Results" MODIFIED="1545870177927" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/OK$ACO.coverage" NAME="ACO Coverage Results" MODIFIED="1545923740244" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -33,45 +33,17 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ACO.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="222">
-              <caret line="420" column="25" lean-forward="true" selection-start-line="420" selection-start-column="25" selection-end-line="420" selection-end-column="25" />
+            <state relative-caret-position="289">
+              <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
               <folding>
                 <element signature="e#0#43#0" expanded="true" />
-                <element signature="e#3608#6784#0" />
-                <element signature="e#6828#6941#0" />
                 <element signature="e#7000#8662#0" />
                 <element signature="e#8693#8835#0" />
                 <element signature="e#8860#8946#0" />
                 <element signature="e#8989#9481#0" />
                 <element signature="e#9507#9878#0" />
+                <element signature="e#9916#12329#0" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/random.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="11390">
-              <caret line="679" selection-start-line="679" selection-end-line="679" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/copy.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2295">
-              <caret line="137" selection-start-line="137" selection-end-line="137" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/codecs.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5236">
-              <caret line="309" selection-start-line="309" selection-end-line="309" />
             </state>
           </provider>
         </entry>
@@ -85,6 +57,8 @@
       <find>set_en</find>
       <find>ant.not_used_jobs_m1</find>
       <find>def random</find>
+      <find>found</find>
+      <find>end_time_m2</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -186,7 +160,7 @@
       <workItem from="1544703650400" duration="19309000" />
       <workItem from="1545736510773" duration="15282000" />
       <workItem from="1545856231431" duration="12206000" />
-      <workItem from="1545911806961" duration="1123000" />
+      <workItem from="1545911806961" duration="8733000" />
     </task>
     <task id="LOCAL-00001" summary="Debugged generating random solution and little progress with pheromone matrix">
       <created>1544712199946</created>
@@ -223,13 +197,20 @@
       <option name="project" value="LOCAL" />
       <updated>1545868201986</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Before changing equations for choosing job probability">
+      <created>1545914605265</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1545914605265</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47920000" />
+    <option name="totallyTimeSpent" value="55530000" />
   </component>
-  <component name="TodoView" selected-index="4">
+  <component name="TodoView">
     <todo-panel id="selected-file">
       <is-autoscroll-to-source value="true" />
     </todo-panel>
@@ -242,13 +223,13 @@
     <frame x="-6" y="-6" width="1381" height="885" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49801326" visible="true" weight="0.143613" />
-      <window_info id="Structure" order="1" sideWeight="0.50198674" side_tool="true" visible="true" weight="0.143613" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49714285" visible="true" weight="0.143613" />
+      <window_info id="Structure" order="1" sideWeight="0.50285715" side_tool="true" visible="true" weight="0.143613" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32980132" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49946696" weight="0.33907285" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.2887417" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.49946696" visible="true" weight="0.30463576" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.2794702" />
@@ -257,7 +238,7 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50053304" side_tool="true" weight="0.28283796" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.32981783" />
-      <window_info anchor="bottom" id="Python Console" order="12" weight="0.32981783" />
+      <window_info anchor="bottom" id="Python Console" order="12" weight="0.32980132" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -274,30 +255,21 @@
     <MESSAGE value="Evaporation added" />
     <MESSAGE value="IdleTime implemented" />
     <MESSAGE value="Fighting with bug that inserts the same job multiple times to possible m2 jobs" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fighting with bug that inserts the same job multiple times to possible m2 jobs" />
+    <MESSAGE value="Before changing equations for choosing job probability" />
+    <option name="LAST_COMMIT_MESSAGE" value="Before changing equations for choosing job probability" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/ACO.py</url>
-          <line>509</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ACO.py</url>
-          <line>529</line>
+          <line>582</line>
           <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ACO.py</url>
-          <line>506</line>
-          <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <condition expression="job1 in ant.possible_m2_jobs" language="Python" />
           <url>file://$PROJECT_DIR$/ACO.py</url>
-          <line>438</line>
+          <line>456</line>
           <option name="timeStamp" value="59" />
         </line-breakpoint>
       </breakpoints>
@@ -315,8 +287,9 @@
         <watch expression="ant.not_used_jobs_m1" />
         <watch expression="ant.solution_m1" />
         <watch expression="ant.possible_m2_jobs" />
-        <watch expression="m1_busy_time" />
-        <watch expression="job1" />
+        <watch expression="sum_of_all_m2" />
+        <watch expression="ant.solution_m2" />
+        <watch expression="job2" />
       </configuration>
     </watches-manager>
   </component>
@@ -381,41 +354,46 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ACO.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="420" column="25" lean-forward="true" selection-start-line="420" selection-start-column="25" selection-end-line="420" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#43#0" expanded="true" />
-            <element signature="e#3608#6784#0" />
-            <element signature="e#6828#6941#0" />
-            <element signature="e#7000#8662#0" />
-            <element signature="e#8693#8835#0" />
-            <element signature="e#8860#8946#0" />
-            <element signature="e#8989#9481#0" />
-            <element signature="e#9507#9878#0" />
-          </folding>
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/input.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output.txt">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/random.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11390">
+        <state relative-caret-position="222">
           <caret line="679" selection-start-line="679" selection-end-line="679" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/copy.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2295">
-          <caret line="137" selection-start-line="137" selection-end-line="137" />
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/codecs.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5236">
+        <state relative-caret-position="168">
           <caret line="309" selection-start-line="309" selection-end-line="309" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/copy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="56">
+          <caret line="148" selection-start-line="148" selection-end-line="148" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ACO.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#43#0" expanded="true" />
+            <element signature="e#7000#8662#0" />
+            <element signature="e#8693#8835#0" />
+            <element signature="e#8860#8946#0" />
+            <element signature="e#8989#9481#0" />
+            <element signature="e#9507#9878#0" />
+            <element signature="e#9916#12329#0" />
+          </folding>
         </state>
       </provider>
     </entry>

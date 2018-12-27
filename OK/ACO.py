@@ -3,10 +3,10 @@ from math import ceil
 from copy import deepcopy
 
 # HEURISTIC GLOBAL VARIABLES
-TASKS = 25
+TASKS = 50
 T_MIN = 5
-T_MAX = 20
-MAINTENANCE_CHANCE = 0.3
+T_MAX = 30
+MAINTENANCE_CHANCE = 0.35
 M2_PENALTY = 0.1
 MAINTENANCE_TIME_COEFFICIENT = 1.5
 PHEROMONE_DECREASE_COEFFICIENT = 1.5
@@ -14,9 +14,9 @@ POPULATION = 100
 ITERATIONS = 1000
 BEST_ANTS = 20
 EVAPORATION_RATE = 0.2
-ALPHA = 0.5
-BETA = 1.5
-Q = 1
+ALPHA = 3
+BETA = 2
+Q = 2
 
 # OTHER GLOBAL VARIABLES
 INPUT_FILE = open("input.txt", "w")
@@ -111,6 +111,9 @@ class Ant:
         self.score = score(self.solution_m1, self.solution_m2)
         self.not_used_jobs_m1 = deepcopy(JOBS)
         self.possible_m2_jobs = list()
+        self.best_m1 = None
+        self.best_m2 = None
+        self.best_score = 9999999999999
 
     def set_score(self):
         self.score = score(self.solution_m1, self.solution_m2)
@@ -119,6 +122,7 @@ class Ant:
         self.score = None
         self.not_used_jobs_m1 = deepcopy(JOBS)
         self.possible_m2_jobs = list()
+
         self.solution_m1 = list()
         self.solution_m2 = list()
 
@@ -217,7 +221,7 @@ def generate_random_solution():
 
                 job2 = choice(possible_m2_jobs)
                 job2.begin_time_m2 = time
-                job2.end_time_m2 = time + job2.op2 * current_m2_penalty
+                job2.end_time_m2 = time + ceil(job2.op2 * current_m2_penalty)
                 solution_m2.append(job2)
                 solution_m2_with_maintenance.append(job2)
                 possible_m2_jobs.remove(job2)
@@ -241,10 +245,13 @@ def generate_random_solution():
 
 
 def score(solution_m1, solution_m2):
-    m1_score = solution_m1[-1].end_time_m1
-    m2_score = solution_m2[-1].end_time_m2
+    temp = 0
+    for job in solution_m1:
+        temp += job.end_time_m1 + job.end_time_m2
+    # m1_score = solution_m1[-1].end_time_m1
+    # m2_score = solution_m2[-1].end_time_m2
 
-    return m1_score + m2_score
+    return temp
 
 
 def generate_output_file(solution_m1, solution_m2):
@@ -411,22 +418,33 @@ def use_pheromone_matrix(ant):
     current_penalty = 1
     is_idle = False
     idle = None
+    job2 = None
 
     while len(solution_m2) != TASKS or m2_busy_time > 0:
         if m1_busy_time < 1:
             if len(ant.solution_m1) == 0:
-                sum_of_last_row = sum(PHEROMONE_MATRIX_M1[-1])
-                x = uniform(0, sum_of_last_row)
+                # sum_of_last_row = sum(PHEROMONE_MATRIX_M1[-1])
+                # x = uniform(0, sum_of_last_row)
+                sum_of_all_m1 = 0
+                for job in ant.not_used_jobs_m1:
+                    sum_of_all_m1 += (PHEROMONE_MATRIX_M1[-1][job.id] ** ALPHA) * ((1 / job.op1) ** BETA)
+
                 temp_sum = 0
-                index = 0
+                x = uniform(0, sum_of_all_m1)
+                # index = 0
 
-                for i in range(len(PHEROMONE_MATRIX_M1[-1])):
+                # for i in range(len(PHEROMONE_MATRIX_M1[-1])):
+                #     if temp_sum >= x:
+                #         break
+                #     temp_sum += PHEROMONE_MATRIX_M1[-1][i]
+                #     index = i
+                for job in ant.not_used_jobs_m1:
+                    temp_sum += (PHEROMONE_MATRIX_M1[-1][job.id] ** ALPHA) * ((1 / job.op1) ** BETA)
                     if temp_sum >= x:
+                        job1 = job
                         break
-                    temp_sum += PHEROMONE_MATRIX_M1[-1][i]
-                    index = i
 
-                job1 = ant.not_used_jobs_m1[index]
+                # job1 = ant.not_used_jobs_m1[index]
                 ant.not_used_jobs_m1.remove(job1)
                 ant.solution_m1.append(job1)
                 m1_busy_time = job1.op1
@@ -439,17 +457,31 @@ def use_pheromone_matrix(ant):
                 ant.possible_m2_jobs.append(job1)
                 job1.end_time_m1 = time
                 last_job_id_m1 = ant.solution_m1[-1].id
-                sum_of_available_jobs_m1 = 0
-
-                for job in ant.not_used_jobs_m1:
-                    sum_of_available_jobs_m1 += PHEROMONE_MATRIX_M1[last_job_id_m1][job.id]
-
-                x = uniform(0, sum_of_available_jobs_m1)
+                sum_of_all_m1 = 0
                 temp_sum = 0
 
+                # sum_of_available_jobs_m1 = 0
+                #
+                # for job in ant.not_used_jobs_m1:
+                #     sum_of_available_jobs_m1 += PHEROMONE_MATRIX_M1[last_job_id_m1][job.id]
+
+                # x = uniform(0, sum_of_available_jobs_m1)
+                # temp_sum = 0
+
+                # for job in ant.not_used_jobs_m1:
+                #     temp_sum += PHEROMONE_MATRIX_M1[last_job_id_m1][job.id]
+                #     if temp_sum > x:
+                #         job1 = job
+                #         break
+
                 for job in ant.not_used_jobs_m1:
-                    temp_sum += PHEROMONE_MATRIX_M1[last_job_id_m1][job.id]
-                    if temp_sum > x:
+                    sum_of_all_m1 += (PHEROMONE_MATRIX_M1[last_job_id_m1][job.id] ** ALPHA) * ((1 / job.op1) ** BETA)
+
+                x = uniform(0, sum_of_all_m1)
+
+                for job in ant.not_used_jobs_m1:
+                    temp_sum += (PHEROMONE_MATRIX_M1[last_job_id_m1][job.id] ** ALPHA) * ((1 / job.op1) ** BETA)
+                    if temp_sum >= x:
                         job1 = job
                         break
 
@@ -488,26 +520,47 @@ def use_pheromone_matrix(ant):
                 else:
                     last_job_id_m2 = ant.solution_m2[-1].id
 
-                sum_of_available_jobs_m2 = 0
+                # sum_of_available_jobs_m2 = 0
+                #
+                # for job in ant.possible_m2_jobs:
+                #     sum_of_available_jobs_m2 += PHEROMONE_MATRIX_M2[last_job_id_m2][job.id]
+                #
+                # x = uniform(0, sum_of_available_jobs_m2)
+                # temp_sum = 0
+                # job = None
+                #
+                # for j in ant.possible_m2_jobs:
+                #     temp_sum += PHEROMONE_MATRIX_M2[last_job_id_m2][j.id]
+                #     if temp_sum > x:
+                #         job = j
+                #         break
+                sum_of_all_m2 = 0
+                temp_sum = 0
+                for job in ant.possible_m2_jobs:
+                    if type(job) == Job:
+                        sum_of_all_m2 += (PHEROMONE_MATRIX_M2[last_job_id_m2][job.id] ** ALPHA) * (
+                                (1 / job.op1) ** BETA)
+                    else:
+                        sum_of_all_m2 += (PHEROMONE_MATRIX_M2[last_job_id_m2][job.id] ** ALPHA) * (
+                                    (1 / job.length) ** BETA)
+
+                x = uniform(0, sum_of_all_m2)
 
                 for job in ant.possible_m2_jobs:
-                    sum_of_available_jobs_m2 += PHEROMONE_MATRIX_M2[last_job_id_m2][job.id]
-
-                x = uniform(0, sum_of_available_jobs_m2)
-                temp_sum = 0
-                job = None
-
-                for j in ant.possible_m2_jobs:
-                    temp_sum += PHEROMONE_MATRIX_M2[last_job_id_m2][j.id]
-                    if temp_sum > x:
-                        job = j
+                    if type(job) == Job:
+                        temp_sum += (PHEROMONE_MATRIX_M2[last_job_id_m2][job.id] ** ALPHA) * (
+                                (1 / job.op1) ** BETA)
+                    else:
+                        temp_sum += (PHEROMONE_MATRIX_M2[last_job_id_m2][job.id] ** ALPHA) * (
+                                    (1 / job.length) ** BETA)
+                    if temp_sum >= x:
+                        job2 = job
                         break
 
                 if temp_sum == 0:
-                    job = choice(ant.possible_m2_jobs)
+                    job2 = choice(ant.possible_m2_jobs)
 
-                if job.id < TASKS:
-                    job2 = job
+                if job2.id < TASKS:
                     solution_m2.append(job2)
                     ant.possible_m2_jobs.remove(job2)
 
@@ -522,12 +575,12 @@ def use_pheromone_matrix(ant):
                     job2.set_penalty(current_penalty)
                     current_penalty += 0.1
                     job2.begin_time_m2 = time
-                    job2.end_time_m2 = time + ceil(job.op2 * current_penalty)
-                    m2_busy_time = ceil(job.op2 * current_penalty)
+                    job2.end_time_m2 = time + ceil(job2.op2 * current_penalty)
+                    m2_busy_time = ceil(job2.op2 * current_penalty)
                     ant.solution_m2.append(job2)
 
                 else:
-                    mtc = job
+                    mtc = job2
                     mtc.set_times(time)
                     ant.solution_m2.append(mtc)
                     ant.possible_m2_jobs.remove(mtc)
@@ -554,13 +607,17 @@ for _ in range(ITERATIONS):
     for ant in ANTS:
         ant.reset()
         x = uniform(0, 1)
-        if x < 0.3:
+        if x < 0.2:
             t1, t2 = generate_random_solution()
             ant.solution_m1, ant.solution_m2 = t1, t2
         else:
             use_pheromone_matrix(ant)
         scr = score(ant.solution_m1, ant.solution_m2)
-        ant.score = scr
+        if scr < ant.best_score:
+            ant.best_score = scr
+            ant.best_m1, ant.best_m2 = ant.solution_m1, ant.solution_m2
+        ant.score, ant.solution_m1, ant.solution_m2 = ant.best_score, ant.best_m1, ant.best_m2
+
     update_pheromone_matrix()
     best = get_x_best()
     print(best[0].score)
