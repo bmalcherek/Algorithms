@@ -3,16 +3,20 @@ from math import ceil
 from copy import deepcopy
 
 # HEURISTIC GLOBAL VARIABLES
-TASKS = 10
+TASKS = 25
 T_MIN = 5
 T_MAX = 20
 MAINTENANCE_CHANCE = 0.3
 M2_PENALTY = 0.1
 MAINTENANCE_TIME_COEFFICIENT = 1.5
+PHEROMONE_DECREASE_COEFFICIENT = 1.5
 POPULATION = 100
-ITERATIONS = 100
+ITERATIONS = 1000
 BEST_ANTS = 20
 EVAPORATION_RATE = 0.2
+ALPHA = 0.5
+BETA = 1.5
+Q = 1
 
 # OTHER GLOBAL VARIABLES
 INPUT_FILE = open("input.txt", "w")
@@ -338,20 +342,19 @@ def evaporation():
 
 def update_pheromone_matrix():
     global PHEROMONE_MATRIX_M1, PHEROMONE_MATRIX_M2
-    ants = get_x_best()
-    # max_weight = BEST_ANTS
-    # old_pheromone_matrix = PHEROMONE_MATRIX.copy()
+    # ants = get_x_best()
 
     evaporation()
 
-    for ant in ants:
+    for ant in ANTS:
 
+        pheromone = Q / ant.score
         PHEROMONE_MATRIX_M1[-1][ant.solution_m1[0].id] += 1
 
         for i in range(len(ant.solution_m1) - 1):
             row = ant.solution_m1[i].id
             column = ant.solution_m1[i + 1].id
-            PHEROMONE_MATRIX_M1[row][column] += 1
+            PHEROMONE_MATRIX_M1[row][column] += pheromone
 
         '''
         J = Job, M = Maintenance, I = Idle
@@ -382,7 +385,7 @@ def update_pheromone_matrix():
                     elif type(ant.solution_m2[i + 2]) == Maintenance:
                         column = ant.solution_m2[i + 2].parent_job + TASKS
 
-                PHEROMONE_MATRIX_M2[row][column] += 1
+                PHEROMONE_MATRIX_M2[row][column] += pheromone
 
             elif type(ant.solution_m2[i]) == Maintenance:
                 row = ant.solution_m2[i].parent_job + TASKS
@@ -394,7 +397,7 @@ def update_pheromone_matrix():
                 else:
                     column = ant.solution_m2[i + 2].id
 
-                PHEROMONE_MATRIX_M2[row][column] += 1
+                PHEROMONE_MATRIX_M2[row][column] += pheromone
 
 
 def use_pheromone_matrix(ant):
@@ -408,7 +411,6 @@ def use_pheromone_matrix(ant):
     current_penalty = 1
     is_idle = False
     idle = None
-    found_m1 = False
 
     while len(solution_m2) != TASKS or m2_busy_time > 0:
         if m1_busy_time < 1:
@@ -449,14 +451,16 @@ def use_pheromone_matrix(ant):
                     temp_sum += PHEROMONE_MATRIX_M1[last_job_id_m1][job.id]
                     if temp_sum > x:
                         job1 = job
-                        ant.solution_m1.append(job1)
-                        job1.begin_time_m1 = time
-                        ant.not_used_jobs_m1.remove(job1)
-                        m1_busy_time = job1.op1
                         break
 
-                # if temp_sum == 0 and len(ant.not_used_jobs_m1) > 0:
-                #     job1 = choice(ant.not_used_jobs_m1)
+                if temp_sum == 0 and len(ant.not_used_jobs_m1) > 0:
+                    job1 = choice(ant.not_used_jobs_m1)
+
+                if not last_done_m1:
+                    ant.solution_m1.append(job1)
+                    job1.begin_time_m1 = time
+                    ant.not_used_jobs_m1.remove(job1)
+                    m1_busy_time = job1.op1
 
         if m2_busy_time < 1 and len(ant.possible_m2_jobs) > 0:
 
@@ -549,7 +553,12 @@ update_pheromone_matrix()
 for _ in range(ITERATIONS):
     for ant in ANTS:
         ant.reset()
-        use_pheromone_matrix(ant)
+        x = uniform(0, 1)
+        if x < 0.3:
+            t1, t2 = generate_random_solution()
+            ant.solution_m1, ant.solution_m2 = t1, t2
+        else:
+            use_pheromone_matrix(ant)
         scr = score(ant.solution_m1, ant.solution_m2)
         ant.score = scr
     update_pheromone_matrix()
