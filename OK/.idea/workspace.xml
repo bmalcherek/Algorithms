@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3d9ae0a8-234a-45b5-9eb7-b41ffc399062" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ACO.py" beforeDir="false" afterPath="$PROJECT_DIR$/ACO.py" afterDir="false" />
     </list>
@@ -12,7 +13,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/OK$ACO.coverage" NAME="ACO Coverage Results" MODIFIED="1545923740244" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/OK$ACO.coverage" NAME="ACO Coverage Results" MODIFIED="1546002857244" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -33,17 +34,20 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ACO.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
+            <state relative-caret-position="252">
+              <caret line="604" column="20" lean-forward="true" selection-start-line="604" selection-start-column="20" selection-end-line="604" selection-end-column="20" />
               <folding>
                 <element signature="e#0#43#0" expanded="true" />
-                <element signature="e#7000#8662#0" />
-                <element signature="e#8693#8835#0" />
-                <element signature="e#8860#8946#0" />
-                <element signature="e#8989#9481#0" />
-                <element signature="e#9507#9878#0" />
-                <element signature="e#9916#12329#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pickletest.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="80" lean-forward="true" selection-start-column="80" selection-end-column="80" />
             </state>
           </provider>
         </entry>
@@ -160,7 +164,8 @@
       <workItem from="1544703650400" duration="19309000" />
       <workItem from="1545736510773" duration="15282000" />
       <workItem from="1545856231431" duration="12206000" />
-      <workItem from="1545911806961" duration="8733000" />
+      <workItem from="1545911806961" duration="9210000" />
+      <workItem from="1546000195816" duration="2961000" />
     </task>
     <task id="LOCAL-00001" summary="Debugged generating random solution and little progress with pheromone matrix">
       <created>1544712199946</created>
@@ -204,11 +209,18 @@
       <option name="project" value="LOCAL" />
       <updated>1545914605265</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Metaheurtic is working and need just tuning and testing">
+      <created>1545924097367</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1545924097367</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="55530000" />
+    <option name="totallyTimeSpent" value="58968000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -223,13 +235,13 @@
     <frame x="-6" y="-6" width="1381" height="885" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49714285" visible="true" weight="0.143613" />
-      <window_info id="Structure" order="1" sideWeight="0.50285715" side_tool="true" visible="true" weight="0.143613" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49628252" visible="true" weight="0.14588058" />
+      <window_info id="Structure" order="1" sideWeight="0.5037175" side_tool="true" visible="true" weight="0.14588058" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.2887417" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.49946696" visible="true" weight="0.30463576" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.28741723" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49946696" weight="0.30463576" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.2794702" />
@@ -256,20 +268,21 @@
     <MESSAGE value="IdleTime implemented" />
     <MESSAGE value="Fighting with bug that inserts the same job multiple times to possible m2 jobs" />
     <MESSAGE value="Before changing equations for choosing job probability" />
-    <option name="LAST_COMMIT_MESSAGE" value="Before changing equations for choosing job probability" />
+    <MESSAGE value="Metaheurtic is working and need just tuning and testing" />
+    <option name="LAST_COMMIT_MESSAGE" value="Metaheurtic is working and need just tuning and testing" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/ACO.py</url>
-          <line>582</line>
+          <line>581</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <condition expression="job1 in ant.possible_m2_jobs" language="Python" />
           <url>file://$PROJECT_DIR$/ACO.py</url>
-          <line>456</line>
+          <line>455</line>
           <option name="timeStamp" value="59" />
         </line-breakpoint>
       </breakpoints>
@@ -381,18 +394,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/pickletest.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="80" lean-forward="true" selection-start-column="80" selection-end-column="80" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ACO.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
+        <state relative-caret-position="252">
+          <caret line="604" column="20" lean-forward="true" selection-start-line="604" selection-start-column="20" selection-end-line="604" selection-end-column="20" />
           <folding>
             <element signature="e#0#43#0" expanded="true" />
-            <element signature="e#7000#8662#0" />
-            <element signature="e#8693#8835#0" />
-            <element signature="e#8860#8946#0" />
-            <element signature="e#8989#9481#0" />
-            <element signature="e#9507#9878#0" />
-            <element signature="e#9916#12329#0" />
           </folding>
         </state>
       </provider>

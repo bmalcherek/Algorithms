@@ -1,6 +1,7 @@
 from random import randint, choice, uniform
 from math import ceil
 from copy import deepcopy
+import pickle
 
 # HEURISTIC GLOBAL VARIABLES
 TASKS = 50
@@ -9,14 +10,13 @@ T_MAX = 30
 MAINTENANCE_CHANCE = 0.35
 M2_PENALTY = 0.1
 MAINTENANCE_TIME_COEFFICIENT = 1.5
-PHEROMONE_DECREASE_COEFFICIENT = 1.5
 POPULATION = 100
-ITERATIONS = 1000
-BEST_ANTS = 20
+ITERATIONS = 100
 EVAPORATION_RATE = 0.2
 ALPHA = 3
 BETA = 2
 Q = 2
+RANDOM_CHANCE = 0.2
 
 # OTHER GLOBAL VARIABLES
 INPUT_FILE = open("input.txt", "w")
@@ -311,7 +311,6 @@ def start_population():
 
 def get_x_best():
     ants = sorted(ANTS, key=lambda x: x.score)
-    ants = ants[:BEST_ANTS]
     return ants
 
 
@@ -598,28 +597,43 @@ def use_pheromone_matrix(ant):
         m2_busy_time -= 1
 
 
-# if __name__ == 'main':
-generate_jobs()
-start_population()
-initialize_pheromone_matrix()
-update_pheromone_matrix()
-for _ in range(ITERATIONS):
-    for ant in ANTS:
-        ant.reset()
-        x = uniform(0, 1)
-        if x < 0.2:
-            t1, t2 = generate_random_solution()
-            ant.solution_m1, ant.solution_m2 = t1, t2
-        else:
-            use_pheromone_matrix(ant)
-        scr = score(ant.solution_m1, ant.solution_m2)
-        if scr < ant.best_score:
-            ant.best_score = scr
-            ant.best_m1, ant.best_m2 = ant.solution_m1, ant.solution_m2
-        ant.score, ant.solution_m1, ant.solution_m2 = ant.best_score, ant.best_m1, ant.best_m2
+# alphas = [1, 2, 3, 4, 5, 6]
+# betas = [1, 2, 3, 4, 5, 6]
+# random_chances = [0.1, 0.2, 0.3, 0.4]
+# iterations = 5
+# generate_jobs()
+# start_population()
+# initialize_pheromone_matrix()
+# update_pheromone_matrix()
+# for _ in range(ITERATIONS):
+#     for ant in ANTS:
+#         ant.reset()
+#         x = uniform(0, 1)
+#         if x < RANDOM_CHANCE:
+#             t1, t2 = generate_random_solution()
+#             ant.solution_m1, ant.solution_m2 = t1, t2
+#         else:
+#             use_pheromone_matrix(ant)
+#         scr = score(ant.solution_m1, ant.solution_m2)
+#         if scr < ant.best_score:
+#             ant.best_score = scr
+#             ant.best_m1, ant.best_m2 = ant.solution_m1, ant.solution_m2
+#         ant.score, ant.solution_m1, ant.solution_m2 = ant.best_score, ant.best_m1, ant.best_m2
+#
+#     update_pheromone_matrix()
+#     best = get_x_best()
+#     print(best[0].score)
 
-    update_pheromone_matrix()
-    best = get_x_best()
-    print(best[0].score)
+filename = 'pickletest.txt'
+pickle.dump((TASKS, T_MIN, T_MAX, MAINTENANCE_CHANCE, M2_PENALTY, MAINTENANCE_TIME_COEFFICIENT, POPULATION, ITERATIONS,
+            EVAPORATION_RATE, ALPHA, BETA, Q, RANDOM_CHANCE, JOBS, ANTS, PHEROMONE_MATRIX_M1,
+            PHEROMONE_MATRIX_M2), open(filename, 'wb'))
+# pickle.dump(ANTS, open(filename, 'wb'))
+# ANTS = pickle.load(open(filename, 'rb'))
+(TASKS, T_MIN, T_MAX, MAINTENANCE_CHANCE, M2_PENALTY, MAINTENANCE_TIME_COEFFICIENT, POPULATION, ITERATIONS,
+ EVAPORATION_RATE, ALPHA, BETA, Q, RANDOM_CHANCE, JOBS, ANTS, PHEROMONE_MATRIX_M1,
+ PHEROMONE_MATRIX_M2) = pickle.load(open(filename, 'rb'))
 
-print("xd")
+parameters = (TASKS, T_MIN, T_MAX, MAINTENANCE_CHANCE, M2_PENALTY, MAINTENANCE_TIME_COEFFICIENT, POPULATION, ITERATIONS,
+              EVAPORATION_RATE, ALPHA, BETA, Q, RANDOM_CHANCE, JOBS, ANTS, PHEROMONE_MATRIX_M1,
+              PHEROMONE_MATRIX_M2)
